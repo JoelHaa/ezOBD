@@ -10,11 +10,10 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         VStack {
-            Image(systemName: "globe")
+            Image(systemName: "car")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
-            Text("Hello, world!")
-        }
+            Text("This application will show OBD2 diagnostics and fault codes. Ideally will be compatible with JDM cars.")        }
         .padding()
     }
 }
