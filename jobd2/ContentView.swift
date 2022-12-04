@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreBluetooth
 
+
 class BluetoothViewModel: NSObject, ObservableObject {
     private var centralManager: CBCentralManager?
     private var peripherals: [CBPeripheral] = []
@@ -31,23 +32,38 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
         if !peripherals.contains(peripheral) {
             self.peripherals.append(peripheral)
             self.peripheralNames.append(peripheral.name ?? "unnamed device")
+            let unnamed : [String] = ["unnamed device"]
+            self.peripheralNames.removeAll(where: { unnamed.contains($0)})
         }
+        
+        
     }
+    
 }
 
 struct ContentView: View {
     @ObservedObject private var bluetoothViewModel = BluetoothViewModel()
     
+    @State private var selection : String?
     
-    var body: some View {
+    
+    
+        var body: some View {
         NavigationView {
-            List(bluetoothViewModel.peripheralNames, id: \.self) { peripheral in
-                Text(peripheral)
+            VStack {
+                List(bluetoothViewModel.peripheralNames, id: \.self, selection: $selection) { peripheral in
+                    Text(peripheral)
+                }
+                Text("\(selection ?? "No bluetooth device selected")").padding([.top, .leading, .bottom], 20)
             }
-            .navigationTitle("Peripherals")
+            .navigationTitle("Bluetooth devices")
+            .toolbar {
+                EditButton()
+            }
+        }
         }
     }
-}
+
     
     struct ContentView_Previews: PreviewProvider {
         static var previews: some View {
