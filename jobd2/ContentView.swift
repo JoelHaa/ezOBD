@@ -7,12 +7,16 @@
 
 import SwiftUI
 import CoreBluetooth
+import os
 
 
 class BluetoothViewModel: NSObject, ObservableObject {
     private var centralManager: CBCentralManager?
     private var peripherals: [CBPeripheral] = []
     @Published var peripheralNames: [String] = []
+    private var placeholderPeripheral: CBPeripheral?
+    let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
+    category: "Log")
     
     override init() {
         super.init()
@@ -25,6 +29,31 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
         if central.state == .poweredOn {
             self.centralManager?.scanForPeripherals(withServices: nil)
         }
+    }
+    
+    func connect(selection: String){
+        if selection == nil ?? "no device"{
+            logger.log("No device for connection")
+        }
+        else{
+            logger.log("Current selection = \(selection)")
+            var selectedDevice: CBPeripheral
+            selectedDevice = peripherals.first(where:  {$0.name == selection}) ?? placeholderPeripheral!
+            logger.log("Trying to connect to \(selectedDevice)")
+            centralManager!.connect(selectedDevice)
+            
+        }
+        
+        
+    }
+    
+    func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
+        logger.log("connected to \(peripheral)")
+        centralManager?.stopScan()
+    }
+    
+    func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
+        logger.log("Disconnected from \(peripheral)")
     }
     
     func centralManager(_ central: CBCentralManager, didDiscover peripheral: CBPeripheral,
@@ -44,8 +73,10 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
 struct ContentView: View {
     @ObservedObject private var bluetoothViewModel = BluetoothViewModel()
     
+    
     @State private var selection : String?
     
+    @StateObject fileprivate var selectedDevice = BluetoothViewModel()
     
     
         var body: some View {
@@ -55,14 +86,18 @@ struct ContentView: View {
                     Text(peripheral)
                 }
                 Text("\(selection ?? "No bluetooth device selected")").padding([.top, .leading, .bottom], 20)
+                    var _ = bluetoothViewModel.connect(selection: selection ?? "no device")
             }
             .navigationTitle("Bluetooth devices")
             .toolbar {
                 EditButton()
             }
+                
+            }
+            
         }
+                        
         }
-    }
 
     
     struct ContentView_Previews: PreviewProvider {
