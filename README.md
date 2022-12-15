@@ -1,4 +1,4 @@
-# jobd2
+# Jobd2
 A simple OBD2 ELM327 Swift project
 
 
