@@ -49,6 +49,19 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
         
     }
     
+    func disconnect(selection: String){
+        if selection == nil ?? "no device"{
+        }
+        else{
+            logger.log("Current selection = \(selection)")
+            var selectedDevice: CBPeripheral
+            selectedDevice = peripherals.first(where:  {$0.name == selection}) ?? placeholderPeripheral!
+            logger.log("Trying to disconnect from \(selectedDevice)")
+            centralManager?.cancelPeripheralConnection(selectedDevice)
+            connected = false
+            
+        }    }
+    
     
     func centralManager(_ central: CBCentralManager, didFailToConnect peripheral: CBPeripheral, error: Error?) {
         logger.log("Failed to connect to \(peripheral)")
@@ -92,36 +105,69 @@ struct ContentView: View {
     let logger = Logger(subsystem: Bundle.main.bundleIdentifier!,
     category: "Log")
     
+    func connect(){
+        return
+    }
+
     
         var body: some View {
+            
             
         NavigationView {
             
                 
                 VStack{
                     
-                    List(bluetoothViewModel.peripheralNames, id: \.self, selection: $selection) { peripheral in
-                        Text(peripheral)
-                    }
+                    
                     
                     if(bluetoothViewModel.connected == true){
-                        Text("Connected to \(bluetoothViewModel.connectedPeripheralName ?? " ")").padding([.top, .leading, .bottom], 20)
+                        Text("Connected to \(bluetoothViewModel.connectedPeripheralName ?? " ")").padding(.all, 20)
+                        
+                        Button("Disconnect"){
+                            var _ = bluetoothViewModel.disconnect(selection: bluetoothViewModel.connectedPeripheralName ?? "no device")
+                            
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .padding(.all, 5)
+                        
                     
                     }else{
-                        //var _ = logger.log("connected = false")
-                        Text("\(selection ?? "No bluetooth device selected")").padding([.top, .leading, .bottom], 20)
-                        var _ = bluetoothViewModel.connect(selection: selection ?? "no device")                }
-                    
-                }
-                    .navigationTitle("Bluetooth devices")
-                    .toolbar {
-                        EditButton()
+                        
+                        List(bluetoothViewModel.peripheralNames, id: \.self, selection: $selection) { peripheral in
+                            Text(peripheral)
+                        }
+                        .navigationTitle("Bluetooth devices")
+                        .toolbar {
+                            
+                            ToolbarItem(placement: .automatic) {
+                                EditButton()
+                                
+                            }
+                            
+                            
+                        }
+                        
+                        Button("Connect"){
+                            var _ = bluetoothViewModel.connect(selection: selection ?? "no device")
+                            
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .padding(.all, 5)
+                        
+                        Text("\(selection ?? "No bluetooth device selected")").padding(.all, 20)
+                        
+                        
+                        
+                        
                     }
-                    .background(Color.blue)
+                    
+                        
+                }
+            
+                    
             }
             
             
-        .background(Color.blue)
         }
             
             
