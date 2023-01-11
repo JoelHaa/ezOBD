@@ -137,15 +137,6 @@ struct ContentView: View {
                             Text(peripheral)
                         }
                         .navigationTitle("Bluetooth devices")
-                        .toolbar {
-                            
-                            ToolbarItem(placement: .automatic) {
-                                EditButton()
-                                
-                            }
-                            
-                            
-                        }
                         
                         Button("Connect"){
                             var _ = bluetoothViewModel.connect(selection: selection ?? "no device")
