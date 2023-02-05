@@ -34,6 +34,10 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
         }
     }
     
+    func peripheral(_ peripheral: CBPeripheral, didDiscoverServices error: Error?) {
+        logger.log("Discovered services")
+    }
+    
     func connect(selection: String){
         if selection == nil ?? "no device"{
         }
@@ -69,6 +73,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         logger.log("connected to \(peripheral)")
+        peripheral.discoverServices(nil)
         connectedPeripheral = peripheral
         connectedPeripheralName = connectedPeripheral?.name
         centralManager?.stopScan()
@@ -77,6 +82,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate {
         logger.log("CONNECTED = \(self.connected)")
         logger.log("The services of the connected device: \(self.connectedPeripheral?.services?.description ?? "no services available")")
     }
+    
     
     
     func centralManager(_ central: CBCentralManager, didDisconnectPeripheral peripheral: CBPeripheral, error: Error?) {
