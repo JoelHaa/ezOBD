@@ -18,7 +18,10 @@ class BluetoothViewModel: NSObject, ObservableObject {
     private var connectedPeripheral: CBPeripheral?
     @Published var connected: Bool = false
     @Published var connectedPeripheralName: String?
-    let macbookName = CBUUID(string: "2A24")
+    let modelNumberString = CBUUID(string: "2A24")
+    let manufacturerNameString = CBUUID(string: "2A29")
+    let elmCodeNotify = CBUUID(string: "AE02")
+    let elmCodeRead = CBUUID(string: "AE10")
     
     override init() {
         super.init()
@@ -27,6 +30,26 @@ class BluetoothViewModel: NSObject, ObservableObject {
 }
 
 extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
+    
+    private func ModelNumberString(from characteristic: CBCharacteristic) -> String {
+      guard let characteristicData = characteristic.value,
+        let byte = characteristicData.first else { return "Error" }
+
+      switch byte {
+        case 0: return "2"
+        case 1: return "J"
+        case 2: return "C"
+        case 3: return "I"
+        case 4: return "E"
+        case 5: return "-"
+        case 6: return "B"
+        case 7: return "L"
+        case 8: return "0"
+        case 9: return "1"
+        default:
+          return "Reserved for future use"
+      }
+    }
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
@@ -37,8 +60,11 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic,
                     error: Error?) {
       switch characteristic.uuid {
-        case macbookName:
-          print(characteristic.value ?? "no value")
+        case modelNumberString:
+          let macbookModelString = ModelNumberString(from: characteristic)
+          print(macbookModelString)
+      case manufacturerNameString:
+          print(manufacturerNameString)
         default:
           print("Unhandled Characteristic UUID: \(characteristic.uuid)")
       }
@@ -61,6 +87,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
           }
           if characteristic.properties.contains(.notify) {
             print("\(characteristic.uuid): properties contains .notify")
+            peripheral.setNotifyValue(true, for: characteristic)
           }
       }
     }
