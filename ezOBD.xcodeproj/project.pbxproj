@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0692B6B9293CC0B800085A1E /* jobd2App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6B8293CC0B800085A1E /* jobd2App.swift */; };
+		0692B6B9293CC0B800085A1E /* ezOBDApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6B8293CC0B800085A1E /* ezOBDApp.swift */; };
 		0692B6BB293CC0B800085A1E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6BA293CC0B800085A1E /* ContentView.swift */; };
 		0692B6BD293CC0BD00085A1E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0692B6BC293CC0BD00085A1E /* Assets.xcassets */; };
 		0692B6C0293CC0BD00085A1E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0692B6BF293CC0BD00085A1E /* Preview Assets.xcassets */; };
-		0692B6CA293CC0BE00085A1E /* jobd2Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6C9293CC0BE00085A1E /* jobd2Tests.swift */; };
-		0692B6D4293CC0BF00085A1E /* jobd2UITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6D3293CC0BF00085A1E /* jobd2UITests.swift */; };
-		0692B6D6293CC0BF00085A1E /* jobd2UITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6D5293CC0BF00085A1E /* jobd2UITestsLaunchTests.swift */; };
+		0692B6CA293CC0BE00085A1E /* ezOBDTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6C9293CC0BE00085A1E /* ezOBDTests.swift */; };
+		0692B6D4293CC0BF00085A1E /* ezOBDUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6D3293CC0BF00085A1E /* ezOBDUITests.swift */; };
+		0692B6D6293CC0BF00085A1E /* ezOBDUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0692B6D5293CC0BF00085A1E /* ezOBDUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,16 +34,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0692B6B5293CC0B800085A1E /* Jobd2.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Jobd2.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0692B6B8293CC0B800085A1E /* jobd2App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jobd2App.swift; sourceTree = "<group>"; };
+		0692B6B5293CC0B800085A1E /* ezOBD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ezOBD.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0692B6B8293CC0B800085A1E /* ezOBDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ezOBDApp.swift; sourceTree = "<group>"; };
 		0692B6BA293CC0B800085A1E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		0692B6BC293CC0BD00085A1E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		0692B6BF293CC0BD00085A1E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		0692B6C5293CC0BE00085A1E /* Jobd2Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Jobd2Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0692B6C9293CC0BE00085A1E /* jobd2Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jobd2Tests.swift; sourceTree = "<group>"; };
-		0692B6CF293CC0BF00085A1E /* Jobd2UITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Jobd2UITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		0692B6D3293CC0BF00085A1E /* jobd2UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jobd2UITests.swift; sourceTree = "<group>"; };
-		0692B6D5293CC0BF00085A1E /* jobd2UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = jobd2UITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0692B6C5293CC0BE00085A1E /* ezOBDTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ezOBDTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0692B6C9293CC0BE00085A1E /* ezOBDTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ezOBDTests.swift; sourceTree = "<group>"; };
+		0692B6CF293CC0BF00085A1E /* ezOBDUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ezOBDUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0692B6D3293CC0BF00085A1E /* ezOBDUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ezOBDUITests.swift; sourceTree = "<group>"; };
+		0692B6D5293CC0BF00085A1E /* ezOBDUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ezOBDUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,9 +74,9 @@
 		0692B6AC293CC0B700085A1E = {
 			isa = PBXGroup;
 			children = (
-				0692B6B7293CC0B800085A1E /* jobd2 */,
-				0692B6C8293CC0BE00085A1E /* jobd2Tests */,
-				0692B6D2293CC0BF00085A1E /* jobd2UITests */,
+				0692B6B7293CC0B800085A1E /* ezOBD */,
+				0692B6C8293CC0BE00085A1E /* ezOBDTests */,
+				0692B6D2293CC0BF00085A1E /* ezOBDUITests */,
 				0692B6B6293CC0B800085A1E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -84,22 +84,22 @@
 		0692B6B6293CC0B800085A1E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				0692B6B5293CC0B800085A1E /* Jobd2.app */,
-				0692B6C5293CC0BE00085A1E /* Jobd2Tests.xctest */,
-				0692B6CF293CC0BF00085A1E /* Jobd2UITests.xctest */,
+				0692B6B5293CC0B800085A1E /* ezOBD.app */,
+				0692B6C5293CC0BE00085A1E /* ezOBDTests.xctest */,
+				0692B6CF293CC0BF00085A1E /* ezOBDUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		0692B6B7293CC0B800085A1E /* jobd2 */ = {
+		0692B6B7293CC0B800085A1E /* ezOBD */ = {
 			isa = PBXGroup;
 			children = (
-				0692B6B8293CC0B800085A1E /* jobd2App.swift */,
+				0692B6B8293CC0B800085A1E /* ezOBDApp.swift */,
 				0692B6BA293CC0B800085A1E /* ContentView.swift */,
 				0692B6BC293CC0BD00085A1E /* Assets.xcassets */,
 				0692B6BE293CC0BD00085A1E /* Preview Content */,
 			);
-			path = jobd2;
+			path = ezOBD;
 			sourceTree = "<group>";
 		};
 		0692B6BE293CC0BD00085A1E /* Preview Content */ = {
@@ -110,29 +110,29 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		0692B6C8293CC0BE00085A1E /* jobd2Tests */ = {
+		0692B6C8293CC0BE00085A1E /* ezOBDTests */ = {
 			isa = PBXGroup;
 			children = (
-				0692B6C9293CC0BE00085A1E /* jobd2Tests.swift */,
+				0692B6C9293CC0BE00085A1E /* ezOBDTests.swift */,
 			);
-			path = jobd2Tests;
+			path = ezOBDTests;
 			sourceTree = "<group>";
 		};
-		0692B6D2293CC0BF00085A1E /* jobd2UITests */ = {
+		0692B6D2293CC0BF00085A1E /* ezOBDUITests */ = {
 			isa = PBXGroup;
 			children = (
-				0692B6D3293CC0BF00085A1E /* jobd2UITests.swift */,
-				0692B6D5293CC0BF00085A1E /* jobd2UITestsLaunchTests.swift */,
+				0692B6D3293CC0BF00085A1E /* ezOBDUITests.swift */,
+				0692B6D5293CC0BF00085A1E /* ezOBDUITestsLaunchTests.swift */,
 			);
-			path = jobd2UITests;
+			path = ezOBDUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		0692B6B4293CC0B700085A1E /* Jobd2 */ = {
+		0692B6B4293CC0B700085A1E /* ezOBD */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0692B6D9293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "Jobd2" */;
+			buildConfigurationList = 0692B6D9293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "ezOBD" */;
 			buildPhases = (
 				0692B6B1293CC0B700085A1E /* Sources */,
 				0692B6B2293CC0B700085A1E /* Frameworks */,
@@ -142,14 +142,14 @@
 			);
 			dependencies = (
 			);
-			name = Jobd2;
+			name = ezOBD;
 			productName = jobd2;
-			productReference = 0692B6B5293CC0B800085A1E /* Jobd2.app */;
+			productReference = 0692B6B5293CC0B800085A1E /* ezOBD.app */;
 			productType = "com.apple.product-type.application";
 		};
-		0692B6C4293CC0BE00085A1E /* Jobd2Tests */ = {
+		0692B6C4293CC0BE00085A1E /* ezOBDTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0692B6DC293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "Jobd2Tests" */;
+			buildConfigurationList = 0692B6DC293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "ezOBDTests" */;
 			buildPhases = (
 				0692B6C1293CC0BE00085A1E /* Sources */,
 				0692B6C2293CC0BE00085A1E /* Frameworks */,
@@ -160,14 +160,14 @@
 			dependencies = (
 				0692B6C7293CC0BE00085A1E /* PBXTargetDependency */,
 			);
-			name = Jobd2Tests;
+			name = ezOBDTests;
 			productName = jobd2Tests;
-			productReference = 0692B6C5293CC0BE00085A1E /* Jobd2Tests.xctest */;
+			productReference = 0692B6C5293CC0BE00085A1E /* ezOBDTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		0692B6CE293CC0BF00085A1E /* Jobd2UITests */ = {
+		0692B6CE293CC0BF00085A1E /* ezOBDUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0692B6DF293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "Jobd2UITests" */;
+			buildConfigurationList = 0692B6DF293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "ezOBDUITests" */;
 			buildPhases = (
 				0692B6CB293CC0BF00085A1E /* Sources */,
 				0692B6CC293CC0BF00085A1E /* Frameworks */,
@@ -178,9 +178,9 @@
 			dependencies = (
 				0692B6D1293CC0BF00085A1E /* PBXTargetDependency */,
 			);
-			name = Jobd2UITests;
+			name = ezOBDUITests;
 			productName = jobd2UITests;
-			productReference = 0692B6CF293CC0BF00085A1E /* Jobd2UITests.xctest */;
+			productReference = 0692B6CF293CC0BF00085A1E /* ezOBDUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -206,7 +206,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 0692B6B0293CC0B700085A1E /* Build configuration list for PBXProject "Jobd2" */;
+			buildConfigurationList = 0692B6B0293CC0B700085A1E /* Build configuration list for PBXProject "ezOBD" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -219,9 +219,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				0692B6B4293CC0B700085A1E /* Jobd2 */,
-				0692B6C4293CC0BE00085A1E /* Jobd2Tests */,
-				0692B6CE293CC0BF00085A1E /* Jobd2UITests */,
+				0692B6B4293CC0B700085A1E /* ezOBD */,
+				0692B6C4293CC0BE00085A1E /* ezOBDTests */,
+				0692B6CE293CC0BF00085A1E /* ezOBDUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -258,7 +258,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0692B6BB293CC0B800085A1E /* ContentView.swift in Sources */,
-				0692B6B9293CC0B800085A1E /* jobd2App.swift in Sources */,
+				0692B6B9293CC0B800085A1E /* ezOBDApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,7 +266,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0692B6CA293CC0BE00085A1E /* jobd2Tests.swift in Sources */,
+				0692B6CA293CC0BE00085A1E /* ezOBDTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,8 +274,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0692B6D6293CC0BF00085A1E /* jobd2UITestsLaunchTests.swift in Sources */,
-				0692B6D4293CC0BF00085A1E /* jobd2UITests.swift in Sources */,
+				0692B6D6293CC0BF00085A1E /* ezOBDUITestsLaunchTests.swift in Sources */,
+				0692B6D4293CC0BF00085A1E /* ezOBDUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -284,12 +284,12 @@
 /* Begin PBXTargetDependency section */
 		0692B6C7293CC0BE00085A1E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0692B6B4293CC0B700085A1E /* Jobd2 */;
+			target = 0692B6B4293CC0B700085A1E /* ezOBD */;
 			targetProxy = 0692B6C6293CC0BE00085A1E /* PBXContainerItemProxy */;
 		};
 		0692B6D1293CC0BF00085A1E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 0692B6B4293CC0B700085A1E /* Jobd2 */;
+			target = 0692B6B4293CC0B700085A1E /* ezOBD */;
 			targetProxy = 0692B6D0293CC0BF00085A1E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -416,7 +416,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"jobd2/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 7HQ8589QXN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -448,7 +448,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"jobd2/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 7HQ8589QXN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -489,7 +489,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jobd2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Jobd2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ezOBD.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ezOBD";
 			};
 			name = Debug;
 		};
@@ -509,7 +509,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Jobd2.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Jobd2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ezOBD.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/ezOBD";
 			};
 			name = Release;
 		};
@@ -552,7 +552,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0692B6B0293CC0B700085A1E /* Build configuration list for PBXProject "Jobd2" */ = {
+		0692B6B0293CC0B700085A1E /* Build configuration list for PBXProject "ezOBD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0692B6D7293CC0BF00085A1E /* Debug */,
@@ -561,7 +561,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0692B6D9293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "Jobd2" */ = {
+		0692B6D9293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "ezOBD" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0692B6DA293CC0BF00085A1E /* Debug */,
@@ -570,7 +570,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0692B6DC293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "Jobd2Tests" */ = {
+		0692B6DC293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "ezOBDTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0692B6DD293CC0BF00085A1E /* Debug */,
@@ -579,7 +579,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		0692B6DF293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "Jobd2UITests" */ = {
+		0692B6DF293CC0BF00085A1E /* Build configuration list for PBXNativeTarget "ezOBDUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				0692B6E0293CC0BF00085A1E /* Debug */,

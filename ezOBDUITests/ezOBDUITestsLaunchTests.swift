@@ -1,13 +1,9 @@
-//
-//  jobd2UITestsLaunchTests.swift
-//  jobd2UITests
-//
 //  Created by Joel Haapaniemi on 4.12.2022.
 //
 
 import XCTest
 
-final class jobd2UITestsLaunchTests: XCTestCase {
+final class ezOBDUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

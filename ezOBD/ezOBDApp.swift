@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct jobd2App: App {
+struct ezOBDApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

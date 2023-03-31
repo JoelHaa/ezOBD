@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:/Users/joelhaapaniemi/Documents/jobd2/Jobd2.xcodeproj">
+      location = "self:../ezOBD/Preview Content">
    </FileRef>
 </Workspace>

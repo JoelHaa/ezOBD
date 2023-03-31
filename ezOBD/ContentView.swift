@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  jobd2
+//  ezOBD
 //
 //  Created by Joel Haapaniemi on 4.12.2022.
 //

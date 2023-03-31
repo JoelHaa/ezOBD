@@ -1,14 +1,10 @@
-//
-//  jobd2Tests.swift
-//  jobd2Tests
-//
 //  Created by Joel Haapaniemi on 4.12.2022.
 //
 
 import XCTest
-@testable import jobd2
+@testable import ezOBD
 
-final class jobd2Tests: XCTestCase {
+final class ezOBDTests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
