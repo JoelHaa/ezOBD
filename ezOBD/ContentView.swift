@@ -13,9 +13,10 @@ import os
 class BluetoothViewModel: NSObject, ObservableObject {
     private var centralManager: CBCentralManager?
     private var peripherals: [CBPeripheral] = []
-    @Published var peripheralNames: [String] = []
     private var placeholderPeripheral: CBPeripheral?
     private var connectedPeripheral: CBPeripheral?
+    
+    @Published var peripheralNames: [String] = []
     @Published var connected: Bool = false
     @Published var loadMainView: Bool = false
     @Published var connectedPeripheralName: String?
