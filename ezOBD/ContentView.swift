@@ -17,7 +17,10 @@ class BluetoothViewModel: NSObject, ObservableObject {
     private var placeholderPeripheral: CBPeripheral?
     private var connectedPeripheral: CBPeripheral?
     @Published var connected: Bool = false
+    @Published var loadMainView: Bool = false
     @Published var connectedPeripheralName: String?
+    
+    // Characteristics UUIDs
     let modelNumberString = CBUUID(string: "2A24")
     let manufacturerNameString = CBUUID(string: "2A29")
     let elmCodeNotify = CBUUID(string: "AE02")
@@ -35,6 +38,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
       guard let characteristicData = characteristic.value,
         let byte = characteristicData.first else { return "Error" }
 
+      // Trying to parse the returning data
       switch byte {
         case 0: return "2"
         case 1: return "J"
@@ -114,6 +118,11 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         self.centralManager?.connect(selectedDevice, options: nil)
     }
     
+    func goToMainView(){
+        connected = true
+        loadMainView = true
+    }
+    
     func disconnect(selection: String){
         if selection == "no device" {
             return
@@ -126,6 +135,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         print("Trying to disconnect from \(selectedDevice)")
         self.centralManager?.cancelPeripheralConnection(selectedDevice)
         connected = false
+        loadMainView = false
     }
     
     
@@ -159,11 +169,14 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     }
 }
 
+// This is the main view
 struct ContentView: View {
     
     @ObservedObject private var bluetoothViewModel = BluetoothViewModel()
     
     @State private var selection : String?
+    
+    @State private var showingAlert = false
 
         
         func connect(){
@@ -173,31 +186,70 @@ struct ContentView: View {
         
             var body: some View {
                 
-                
+            // View is primarily controlled with an if clause stack, perhaps not the most eloquent
+            // method, but for the scale of this project, should do the trick
             NavigationView {
                 
                     
                     VStack{
                         
                         
-                        
-                        if(bluetoothViewModel.connected == true){
+                        // The View to confirm bluetooth device connection and to allow disconnection
+                        if(bluetoothViewModel.connected == true && bluetoothViewModel.loadMainView == false){
                             Text("Connected to \(bluetoothViewModel.connectedPeripheralName ?? " ")").padding(.all, 20)
                             
                             Button("Disconnect"){
-                                var _ = bluetoothViewModel.disconnect(selection: bluetoothViewModel.connectedPeripheralName ?? "no device")
+                                showingAlert = true
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.red)
+                            .padding(.all, 5)
+                            .alert("Are you sure you want to disconnect?", isPresented: $showingAlert) {
+                                Button("Yes", role: .cancel) {
+                                    var _ = bluetoothViewModel.disconnect(selection: bluetoothViewModel.connectedPeripheralName ?? "no device")
+                                }
                                 
+                            }
+                            
+                            Button("Continue"){
+                                var _ = bluetoothViewModel.goToMainView()
                             }
                             .buttonStyle(.borderedProminent)
                             .padding(.all, 5)
                             
+                        // The view after a connection to a device has been made
+                        }else if(bluetoothViewModel.loadMainView == true && bluetoothViewModel.connected == true){
+                            
+                            Text("Connected device: \(bluetoothViewModel.connectedPeripheralName ?? " ")")
+                                .padding(.all, 20)
+                                .font(.headline)
+                            
+                            Button("Disconnect"){
+                                showingAlert = true
+                            }
+                            .buttonStyle(.borderedProminent)
+                            .tint(.red)
+                            .padding(.all, 5)
+                            .alert("Are you sure you want to disconnect?", isPresented: $showingAlert) {
+                                Button("Yes", role: .cancel) {
+                                    var _ = bluetoothViewModel.disconnect(selection: bluetoothViewModel.connectedPeripheralName ?? "no device")
+                                }
+                                
+                            }
+                            
+                        }
                         
-                        }else{
+    
+                        // The default view when the application is run
+                        else{
+                            
+                            Text("Bluetooth devices")
+                                .padding(.all, 20)
+                                .font(.headline)
                             
                             List(bluetoothViewModel.peripheralNames, id: \.self, selection: $selection) { peripheral in
                                 Text(peripheral)
                             }
-                            .navigationTitle("Bluetooth devices")
                             
                             Button("Connect"){
                                 var _ = bluetoothViewModel.connect(selection: selection ?? "no device")
