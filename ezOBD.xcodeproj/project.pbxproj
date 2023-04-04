@@ -215,6 +215,10 @@
 				Base,
 			);
 			mainGroup = 0692B6AC293CC0B700085A1E;
+			packageReferences = (
+				06068E1C29DCA34400145BC1 /* XCRemoteSwiftPackageReference "elm327lib" */,
+				06068E1D29DCA50B00145BC1 /* XCRemoteSwiftPackageReference "SwiftELM327" */,
+			);
 			productRefGroup = 0692B6B6293CC0B800085A1E /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -589,6 +593,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		06068E1C29DCA34400145BC1 /* XCRemoteSwiftPackageReference "elm327lib" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/cracker4o/elm327lib.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		06068E1D29DCA50B00145BC1 /* XCRemoteSwiftPackageReference "SwiftELM327" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/orungrau/SwiftELM327.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 0692B6AD293CC0B700085A1E /* Project object */;
 }
