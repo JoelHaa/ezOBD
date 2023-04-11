@@ -21,11 +21,18 @@ class BluetoothViewModel: NSObject, ObservableObject {
     @Published var loadMainView: Bool = false
     @Published var connectedPeripheralName: String?
     
+    // Data variables
+    @Published var modelNumberString: String = ""
+    @Published var elmCodeRead: String = ""
+    @Published var elmCode2: String = ""
+    
     // Characteristics UUIDs
-    let modelNumberString = CBUUID(string: "2A24")
-    let manufacturerNameString = CBUUID(string: "2A29")
-    let elmCodeNotify = CBUUID(string: "AE02")
-    let elmCodeRead = CBUUID(string: "AE10")
+    let modelNumberStringCBUUID = CBUUID(string: "2A24")
+    let manufacturerNameStringCBUUID = CBUUID(string: "2A29")
+    let elmCodeNotifyCBUUID = CBUUID(string: "AE02")
+    let elmCodeReadCBUUID = CBUUID(string: "AE10")
+    let elmCode2CBUUID = CBUUID(string: "FFF1")
+
     
     override init() {
         super.init()
@@ -36,25 +43,23 @@ class BluetoothViewModel: NSObject, ObservableObject {
 extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     private func ModelNumberString(from characteristic: CBCharacteristic) -> String {
-      guard let characteristicData = characteristic.value,
-        let byte = characteristicData.first else { return "Error" }
-
-      // Trying to parse the returning data
-      switch byte {
-        case 0: return "2"
-        case 1: return "J"
-        case 2: return "C"
-        case 3: return "I"
-        case 4: return "E"
-        case 5: return "-"
-        case 6: return "B"
-        case 7: return "L"
-        case 8: return "0"
-        case 9: return "1"
-        default:
-          return "Reserved for future use"
-      }
+        let unicodeString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "n/a"
+        modelNumberString = unicodeString
+        return unicodeString
     }
+    
+    private func elmCodeRead(from characteristic: CBCharacteristic) -> String {
+        let unicodeString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "n/a"
+        elmCodeRead = unicodeString
+        return unicodeString
+    }
+    
+    private func elmCode2(from characteristic: CBCharacteristic) -> String {
+        let unicodeString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "n/a"
+        elmCode2 = unicodeString
+        return unicodeString
+    }
+
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
         if central.state == .poweredOn {
@@ -64,12 +69,21 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     func peripheral(_ peripheral: CBPeripheral, didUpdateValueFor characteristic: CBCharacteristic,
                     error: Error?) {
-      switch characteristic.uuid {
-        case modelNumberString:
-          let macbookModelString = ModelNumberString(from: characteristic)
-          print(macbookModelString)
-      case manufacturerNameString:
-          print(manufacturerNameString)
+        switch characteristic.uuid {
+            
+            case modelNumberStringCBUUID:
+                print(modelNumberStringCBUUID)
+                modelNumberString = ModelNumberString(from: characteristic)
+            case manufacturerNameStringCBUUID:
+                print(manufacturerNameStringCBUUID)
+            case elmCodeReadCBUUID:
+                print(elmCodeReadCBUUID)
+                elmCodeRead = elmCodeRead(from: characteristic)
+            case elmCode2CBUUID:
+                print(elmCode2CBUUID)
+                elmCode2 = elmCode2(from: characteristic)
+                
+          
         default:
           print("Unhandled Characteristic UUID: \(characteristic.uuid)")
       }
@@ -146,7 +160,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     func centralManager(_ central: CBCentralManager, didConnect peripheral: CBPeripheral) {
         print("connected to \(peripheral)")
-        peripheral.delegate = self // set the delegate property to self
+        peripheral.delegate = self
         peripheral.discoverServices(nil)
         connectedPeripheral = peripheral
         connectedPeripheralName = connectedPeripheral?.name
@@ -224,6 +238,15 @@ struct ContentView: View {
                             Text("Connected device: \(bluetoothViewModel.connectedPeripheralName ?? " ")")
                                 .padding(.all, 20)
                                 .font(.headline)
+                            
+                            Text("ModelNumberString: \(bluetoothViewModel.modelNumberString )")
+                                .padding(.all, 5)
+                            
+                            Text("ELMCodeRead: \(bluetoothViewModel.elmCodeRead )")
+                                .padding(.all, 5)
+                            
+                            Text("ELMCode2: \(bluetoothViewModel.elmCode2 )")
+                                .padding(.all, 5)
                             
                             Button("Disconnect"){
                                 showingAlert = true
