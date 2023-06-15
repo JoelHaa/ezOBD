@@ -34,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		068704482A3B38F6004C61A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		0692B6B5293CC0B800085A1E /* ezOBD.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ezOBD.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0692B6B8293CC0B800085A1E /* ezOBDApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ezOBDApp.swift; sourceTree = "<group>"; };
 		0692B6BA293CC0B800085A1E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -94,6 +95,7 @@
 		0692B6B7293CC0B800085A1E /* ezOBD */ = {
 			isa = PBXGroup;
 			children = (
+				068704482A3B38F6004C61A5 /* Info.plist */,
 				0692B6B8293CC0B800085A1E /* ezOBDApp.swift */,
 				0692B6BA293CC0B800085A1E /* ContentView.swift */,
 				0692B6BC293CC0BD00085A1E /* Assets.xcassets */,
@@ -422,6 +424,7 @@
 				DEVELOPMENT_TEAM = 7HQ8589QXN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ezOBD/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow for bluetooth use";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow using bluetooth for discovering peripherals";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -454,6 +457,7 @@
 				DEVELOPMENT_TEAM = 7HQ8589QXN;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = ezOBD/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Allow for bluetooth use";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Please allow using bluetooth for discovering peripherals";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

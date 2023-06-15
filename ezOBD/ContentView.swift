@@ -23,15 +23,16 @@ class BluetoothViewModel: NSObject, ObservableObject {
     
     // Data variables
     @Published var modelNumberString: String = ""
-    @Published var elmCodeRead: String = ""
-    @Published var elmCode2: String = ""
+    @Published var obdData1: String = ""
+    @Published var obdData2: String = ""
     
     // Characteristics UUIDs
     let modelNumberStringCBUUID = CBUUID(string: "2A24")
     let manufacturerNameStringCBUUID = CBUUID(string: "2A29")
     let elmCodeNotifyCBUUID = CBUUID(string: "AE02")
-    let elmCodeReadCBUUID = CBUUID(string: "AE10")
-    let elmCode2CBUUID = CBUUID(string: "FFF1")
+    let obdData1CBUUID = CBUUID(string: "AE10")
+    let obdData2CBUUID = CBUUID(string: "FFF1")
+    
 
     
     override init() {
@@ -48,17 +49,61 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         return unicodeString
     }
     
-    private func elmCodeRead(from characteristic: CBCharacteristic) -> String {
+    private func obdData1(from characteristic: CBCharacteristic) -> String {
         let unicodeString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "n/a"
-        elmCodeRead = unicodeString
+        obdData1 = unicodeString
         return unicodeString
     }
     
-    private func elmCode2(from characteristic: CBCharacteristic) -> String {
+    private func obdData2(from characteristic: CBCharacteristic) -> String {
         let unicodeString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "n/a"
-        elmCode2 = unicodeString
+        obdData2 = unicodeString
         return unicodeString
     }
+    
+    func fetchDataFromELM327() {
+        print("Ollaan fetchis")
+        let url = URL(string: "http://192.168.1.104:35000")!
+        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let data = data {
+                let responseString = String(data: data, encoding: .utf8)
+                print("Response: \(responseString ?? "na")")
+            }
+        }
+        task.resume() // Added to start the data task
+    }
+
+    
+    func sendOBD2Command() {
+        print("Ollaa sendis")
+        let command = "01 0C\r" // Example OBD2 command for retrieving RPM
+        let commandData = command.data(using: .utf8)
+
+        guard let url = URL(string: "http://192.168.1.104:35000") else {
+            print("Invalid URL")
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = commandData
+
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+            if let error = error {
+                print("Error: \(error)")
+            } else if let data = data {
+                let responseString = String(data: data, encoding: .utf8)
+                // Parse the response and extract the OBD2 data
+                let responseData = responseString?.trimmingCharacters(in: .whitespacesAndNewlines)
+                // Process the OBD2 data received from the emulator
+                print("Response: \(responseData ?? "na")")
+            }
+        }.resume() // Added to start the data task
+    }
+
+
 
     
     func centralManagerDidUpdateState(_ central: CBCentralManager) {
@@ -76,12 +121,12 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
                 modelNumberString = ModelNumberString(from: characteristic)
             case manufacturerNameStringCBUUID:
                 print(manufacturerNameStringCBUUID)
-            case elmCodeReadCBUUID:
-                print(elmCodeReadCBUUID)
-                elmCodeRead = elmCodeRead(from: characteristic)
-            case elmCode2CBUUID:
-                print(elmCode2CBUUID)
-                elmCode2 = elmCode2(from: characteristic)
+            case obdData1CBUUID:
+                print(obdData1CBUUID)
+                obdData1 = obdData1(from: characteristic)
+            case obdData2CBUUID:
+                print(obdData2CBUUID)
+                obdData2 = obdData2(from: characteristic)
                 
           
         default:
@@ -136,6 +181,8 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     func goToMainView(){
         connected = true
         loadMainView = true
+        fetchDataFromELM327()
+        sendOBD2Command()
     }
     
     func disconnect(selection: String){
@@ -151,6 +198,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         self.centralManager?.cancelPeripheralConnection(selectedDevice)
         connected = false
         loadMainView = false
+        modelNumberString = ""
     }
     
     
@@ -239,13 +287,13 @@ struct ContentView: View {
                                 .padding(.all, 20)
                                 .font(.headline)
                             
-                            Text("ModelNumberString: \(bluetoothViewModel.modelNumberString )")
+                            Text("ModelNumber: \(bluetoothViewModel.modelNumberString )")
                                 .padding(.all, 5)
                             
-                            Text("ELMCodeRead: \(bluetoothViewModel.elmCodeRead )")
+                            Text("OBD-Data1: \(bluetoothViewModel.obdData1 )")
                                 .padding(.all, 5)
                             
-                            Text("ELMCode2: \(bluetoothViewModel.elmCode2 )")
+                            Text("OBD-Data2: \(bluetoothViewModel.obdData2 )")
                                 .padding(.all, 5)
                             
                             Button("Disconnect"){
