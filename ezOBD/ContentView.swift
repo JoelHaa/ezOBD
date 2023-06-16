@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreBluetooth
 import os
+import UIKit
 
 
 class BluetoothViewModel: NSObject, ObservableObject {
@@ -60,47 +61,26 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         obdData2 = unicodeString
         return unicodeString
     }
-    
-    func fetchDataFromELM327() {
-        print("Ollaan fetchis")
+ 
+    func sendOBD2Command(){
         let url = URL(string: "http://192.168.1.104:35000")!
-        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error)")
-            } else if let data = data {
-                let responseString = String(data: data, encoding: .utf8)
-                print("Response: \(responseString ?? "na")")
-            }
-        }
-        task.resume() // Added to start the data task
-    }
-
-    
-    func sendOBD2Command() {
-        print("Ollaa sendis")
-        let command = "01 0C\r" // Example OBD2 command for retrieving RPM
-        let commandData = command.data(using: .utf8)
-
-        guard let url = URL(string: "http://192.168.1.104:35000") else {
-            print("Invalid URL")
-            return
-        }
-
         var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.httpBody = commandData
+        request.httpMethod = "GET"
+        request.allHTTPHeaderFields = [
+            "test": "010C"
+        ]
+        
+        print("Sent request: \(request.description)")
 
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            if let error = error {
-                print("Error: \(error)")
-            } else if let data = data {
-                let responseString = String(data: data, encoding: .utf8)
-                // Parse the response and extract the OBD2 data
-                let responseData = responseString?.trimmingCharacters(in: .whitespacesAndNewlines)
-                // Process the OBD2 data received from the emulator
-                print("Response: \(responseData ?? "na")")
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                let image = UIImage(data: data)
+                print("Received data: \(data.description)")
+            } else if let error = error {
+                print("HTTP Request Failed \(error)")
             }
-        }.resume() // Added to start the data task
+        }
+        task.resume()
     }
 
 
@@ -181,7 +161,6 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     func goToMainView(){
         connected = true
         loadMainView = true
-        fetchDataFromELM327()
         sendOBD2Command()
     }
     
