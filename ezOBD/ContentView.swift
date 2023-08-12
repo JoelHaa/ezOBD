@@ -78,11 +78,10 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
             "Request": "010C"
         ]
         
-        print("Sent request: \(request.description)")
+        print("Sent request: \(String(describing: request.allHTTPHeaderFields))")
 
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-                _ = UIImage(data: data)
                 print("Received data: \(data.description)")
             } else if let error = error {
                 print("HTTP Request Failed \(error)")
