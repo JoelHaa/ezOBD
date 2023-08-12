@@ -27,7 +27,7 @@ class BluetoothViewModel: NSObject, ObservableObject {
     @Published var obdData1: String = ""
     @Published var obdData2: String = ""
     
-    // Characteristics UUIDs
+    // Characteristics UUIDs //These were intended for bluetooth communication
     let modelNumberStringCBUUID = CBUUID(string: "2A24")
     let manufacturerNameStringCBUUID = CBUUID(string: "2A29")
     let elmCodeNotifyCBUUID = CBUUID(string: "AE02")
@@ -42,6 +42,9 @@ class BluetoothViewModel: NSObject, ObservableObject {
    }
 }
 
+// This extension/function holds all the subfunctions that control bluetooth states
+// and UI navigation/functionality, most likely not the proper way but I'm keeping
+// it simple as this is my first SwiftUI project.
 extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     private func ModelNumberString(from characteristic: CBCharacteristic) -> String {
@@ -62,19 +65,24 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         return unicodeString
     }
  
+    // This function is triggered in the UI when the user has succesfully connected
+    // to a bluetooth device, as of now doesn't work as I don't know
+    // how I should format my http calls to the python obd2 elm327 emulator
+    // running in my local network. The calls go through but only met with
+    // with 'Invalid request'
     func sendOBD2Command(){
         let url = URL(string: "http://192.168.1.104:35000")!
         var request = URLRequest(url: url)
-        request.httpMethod = "GET"
+        request.httpMethod = "POST"
         request.allHTTPHeaderFields = [
-            "test": "010C"
+            "Request": "010C"
         ]
         
         print("Sent request: \(request.description)")
 
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
             if let data = data {
-                let image = UIImage(data: data)
+                _ = UIImage(data: data)
                 print("Received data: \(data.description)")
             } else if let error = error {
                 print("HTTP Request Failed \(error)")
@@ -145,6 +153,8 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
+    // Basic connect function, checks if selected device exists
+    // and then tries to form a connection
     func connect(selection: String){
         if selection == "no device" {
             return
@@ -158,12 +168,14 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         self.centralManager?.connect(selectedDevice, options: nil)
     }
     
+    // Simple function to return to the main view
     func goToMainView(){
         connected = true
         loadMainView = true
         sendOBD2Command()
     }
     
+    // Simple function for disconnecting from a bluetooth device
     func disconnect(selection: String){
         if selection == "no device" {
             return
@@ -229,7 +241,9 @@ struct ContentView: View {
             var body: some View {
                 
             // View is primarily controlled with an if clause stack, perhaps not the most eloquent
-            // method, but for the scale of this project, should do the trick
+            // method, but for the scale of this project, should do the trick, also calling
+            // of functions is probably not meant to do as I did. This would need refactoring
+            // in the future.
             NavigationView {
                 
                     
