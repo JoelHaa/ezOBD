@@ -24,15 +24,15 @@ class BluetoothViewModel: NSObject, ObservableObject {
     
     // Data variables
     @Published var modelNumberString: String = ""
-    @Published var obdData1: String = ""
-    @Published var obdData2: String = ""
+    @Published var engineRPM: String = ""
+    @Published var vehicleSpeed: String = ""
     
     // Characteristics UUIDs //These were intended for bluetooth communication
     let modelNumberStringCBUUID = CBUUID(string: "2A24")
     let manufacturerNameStringCBUUID = CBUUID(string: "2A29")
     let elmCodeNotifyCBUUID = CBUUID(string: "AE02")
-    let obdData1CBUUID = CBUUID(string: "AE10")
-    let obdData2CBUUID = CBUUID(string: "FFF1")
+    let engineRPMCBUUID = CBUUID(string: "AE10")
+    let vehicleSpeedCBUUID = CBUUID(string: "FFF1")
     
 
     
@@ -42,9 +42,10 @@ class BluetoothViewModel: NSObject, ObservableObject {
    }
 }
 
-// This extension/function holds all the subfunctions that control bluetooth states
-// and UI navigation/functionality, most likely not the proper way but I'm keeping
-// it simple as this is my first SwiftUI project.
+ /*  This extension/function holds all the subfunctions that control bluetooth states
+     and UI navigation/functionality, most likely not the proper way but I'm keeping
+     it simple as this is my first SwiftUI project.
+ */
 extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     
     private func ModelNumberString(from characteristic: CBCharacteristic) -> String {
@@ -53,24 +54,28 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         return unicodeString
     }
     
-    private func obdData1(from characteristic: CBCharacteristic) -> String {
+    private func engineRPM(from characteristic: CBCharacteristic) -> String {
         let unicodeString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "n/a"
-        obdData1 = unicodeString
+        engineRPM = unicodeString
         return unicodeString
     }
     
-    private func obdData2(from characteristic: CBCharacteristic) -> String {
+    private func vehicleSpeed(from characteristic: CBCharacteristic) -> String {
         let unicodeString = String(data: characteristic.value!, encoding: String.Encoding.utf8) ?? "n/a"
-        obdData2 = unicodeString
+        vehicleSpeed = unicodeString
         return unicodeString
     }
  
-    // This function is triggered in the UI when the user has succesfully connected
-    // to a bluetooth device, as of now doesn't work as I don't know
-    // how I should format my http calls to the python obd2 elm327 emulator
-    // running in my local network. The calls go through but only met with
-    // with 'Invalid request'
-    func sendOBD2Command(){
+    /*  This function is triggered in the UI when the user has succesfully connected
+        to a bluetooth device, as of now doesn't work as I don't know
+        how I should format my http calls to the python obd2 elm327 emulator
+        running in my local network. The calls go through but only met with
+        with 'Invalid request'.
+        010C is the OBD2 PID for Engine RPM
+        010D is the OBD2 PID for Vehicle Speed
+     */
+    func getEngineRPM()-> Int{
+        var engineRPM = 0
         let url = URL(string: "http://192.168.1.104:35000")!
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
@@ -87,7 +92,89 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
                 print("HTTP Request Failed \(error)")
             }
         }
+        
+        /*  Response conversion to decimal, the response should be a string
+            as in 7E8 04 41 01 14 46, 7E8 is the header, 04 is the byte size and
+            41 01 14 46 is the response, with 14 & 46 the values we need for the
+            conversion to a decimal value.
+         */
+        var responseData: String = "7E804411446"
+        
+        let start = responseData.index(responseData.startIndex, offsetBy: 7)
+        let end = responseData.index(responseData.endIndex, offsetBy: -2)
+        let range = start..<end
+         
+        let hexByte1 = responseData[range]
+        
+        let start2 = responseData.index(responseData.startIndex, offsetBy: 9)
+        let end2 = responseData.index(responseData.endIndex, offsetBy: 0)
+        let range2 = start2..<end2
+         
+        let hexByte2 = responseData[range2]
+        
+        
+        var decByte1 = Int(hexByte1, radix: 16)!
+        var decByte2 = Int(hexByte2, radix: 16)!
+        
+        print("hexByte1 = \(hexByte1) decByte1 = \(decByte1)")
+        print("hexByte2 = \(hexByte2) decByte2 = \(decByte2)")
+        
+        /*  Formula for getting the engine rpm ((256*A)+B))/4
+            where A = decByte1 and B = decByte2
+         */
+        engineRPM = ((256*decByte1 + decByte2) / 4)
+        
+        print("EngineRPM = \(engineRPM)")
+        
         task.resume()
+        return engineRPM
+    }
+    
+    func getVehicleSpeed()-> Int{
+        var vehicleSpeed = 0
+        let url = URL(string: "http://192.168.1.104:35000")!
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.allHTTPHeaderFields = [
+            "Request": "010D"
+        ]
+        
+        print("Sent request: \(String(describing: request.allHTTPHeaderFields))")
+
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let data = data {
+                print("Received data: \(data.description)")
+            } else if let error = error {
+                print("HTTP Request Failed \(error)")
+            }
+        }
+        
+        /*  Response conversion to decimal, the response should be a string
+            as in 7E8 03 41 0D 5C, 7E8 is the header, 03 is the byte size and
+            41 0D 5C is the response, with 5C being the value we need for the
+            conversion to a decimal value.
+         */
+        var responseData: String = "7E803410D5C"
+        
+        let start = responseData.index(responseData.startIndex, offsetBy: 9)
+        let end = responseData.index(responseData.endIndex, offsetBy: 0)
+        let range = start..<end
+         
+        let hexByte1 = responseData[range]
+        
+        var decByte1 = Int(hexByte1, radix: 16)!
+        
+        print("hexByte1 = \(hexByte1) decByte1 = \(decByte1)")
+        
+        /*  Formula for getting the vehicle speed is A
+            where A = decByte1
+         */
+        vehicleSpeed = decByte1
+        
+        print("Vehicle speed = \(vehicleSpeed)")
+        
+        task.resume()
+        return vehicleSpeed
     }
 
 
@@ -108,13 +195,12 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
                 modelNumberString = ModelNumberString(from: characteristic)
             case manufacturerNameStringCBUUID:
                 print(manufacturerNameStringCBUUID)
-            case obdData1CBUUID:
-                print(obdData1CBUUID)
-                obdData1 = obdData1(from: characteristic)
-            case obdData2CBUUID:
-                print(obdData2CBUUID)
-                obdData2 = obdData2(from: characteristic)
-                
+            case engineRPMCBUUID:
+                print(engineRPMCBUUID)
+                engineRPM = engineRPM(from: characteristic)
+            case vehicleSpeedCBUUID:
+                print(vehicleSpeedCBUUID)
+                vehicleSpeed = vehicleSpeed(from: characteristic)
           
         default:
           print("Unhandled Characteristic UUID: \(characteristic.uuid)")
@@ -152,8 +238,9 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
         }
     }
     
-    // Basic connect function, checks if selected device exists
-    // and then tries to form a connection
+    /*  Basic connect function, checks if selected device exists
+        and then tries to form a connection
+     */
     func connect(selection: String){
         if selection == "no device" {
             return
@@ -171,7 +258,7 @@ extension BluetoothViewModel: CBCentralManagerDelegate, CBPeripheralDelegate {
     func goToMainView(){
         connected = true
         loadMainView = true
-        sendOBD2Command()
+        //getEngineRPM()
     }
     
     // Simple function for disconnecting from a bluetooth device
@@ -239,10 +326,11 @@ struct ContentView: View {
         
             var body: some View {
                 
-            // View is primarily controlled with an if clause stack, perhaps not the most eloquent
-            // method, but for the scale of this project, should do the trick, also calling
-            // of functions is probably not meant to do as I did. This would need refactoring
-            // in the future.
+             /*  View is primarily controlled with an if clause stack, perhaps not the most eloquent
+                 method, but for the scale of this project, should do the trick, also calling
+                 of functions is probably not meant to do as I did. This would need refactoring
+                 in the future.
+             */
             NavigationView {
                 
                     
@@ -275,17 +363,28 @@ struct ContentView: View {
                         // The view after a connection to a device has been made
                         }else if(bluetoothViewModel.loadMainView == true && bluetoothViewModel.connected == true){
                             
+                            /*
                             Text("Connected device: \(bluetoothViewModel.connectedPeripheralName ?? " ")")
                                 .padding(.all, 20)
                                 .font(.headline)
+                             */
+                        
+                            // This is just for the sake of the demo
+                            Text("Connected device: OBD2 Vehicle")
+                                .padding(.all, 20)
+                                .font(.headline)
                             
+                            /* This was just to check if we can fetch data through
+                            the bluetooth protocol
+                             
                             Text("ModelNumber: \(bluetoothViewModel.modelNumberString )")
                                 .padding(.all, 5)
+                            */
                             
-                            Text("OBD-Data1: \(bluetoothViewModel.obdData1 )")
+                            Text("Engine RPM: \(bluetoothViewModel.getEngineRPM() )")
                                 .padding(.all, 5)
                             
-                            Text("OBD-Data2: \(bluetoothViewModel.obdData2 )")
+                            Text("Vehicle Speed (km/h): \(bluetoothViewModel.getVehicleSpeed() )")
                                 .padding(.all, 5)
                             
                             Button("Disconnect"){
